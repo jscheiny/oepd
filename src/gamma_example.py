@@ -1,8 +1,6 @@
 import math, numpy, utils
 
 
-def approx_equal(a,b,thresh=1e-6):
-	return abs(a-b)<=thresh
 
 #PARAMS: k (shape), theta (scale)
 
@@ -22,14 +20,26 @@ def pdf(k,theta,x):
 	1/(math.gamma(k)*theta**k)*x**(k-1)*math.exp(-x/theta)
 
 
-def solver(mu,sig2,skew=-1,kurtosis=-1): #assumes that user knows inputs 1...k for some k, i.e. doesn't know mu and skew but not sig2
+def solver(mu,sig2):
 	theta = float(sig2)/mu
 	k = float(mu)/theta
 	params = [k, theta]
-	if skew!=-1:
-		if not approx_equal(skew,2/math.sqrt(k)):
-			return False, []
-	if kurtosis!=-1:
-		if not approx_equal(kurtosis,6/k+3):
-			return False, []
-	return True, params
+	return params
+
+
+def goodness_of_fit(mu,sig2,skew=None,kurt=None):
+	#returns:
+	#-1 if no fit
+	#0  if trivial fit found (in this case if only mu and sig2 are given)
+	#1  if decent fit
+	#2  if good fit
+	#3  if ggggg-great fit
+	params = solver(mu,sig2)
+	fitlist=[]	
+	if skew!=None:
+		fit = utils.approx_equal(skew,skewness(*params))
+		fitlist.append(fit)
+	if kurt!=None:
+		fit = utils.approx_equal(kurt,kurtosis(*params))
+		fitlist.append(fit)
+	return utils.fits2score(fitlist)
