@@ -22,6 +22,13 @@ class Stat(enum.Enum):
     def __call__(self, value):
         return StatValue(self, value)
 
+    @staticmethod
+    def lookup(value):
+        for e in Stat:
+            if e.value == value:
+                return e
+        return None
+
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
         """
@@ -71,11 +78,12 @@ class Distribution(object):
             r += '(' + (', '.join(self.params)) + ')'
         return r
 
-    def goodnessOfFit(self, *values):
-        asserts.checkIterType(values, StatValue)
+    def goodnessOfFit(self, **values):
         valueMap = {}
-        for sv in values:
-            valueMap[sv.stat] = sv.value
+        for name, value in values.iteritems():
+            stat = Stat.lookup(name)
+            if name != None:
+                valueMap[stat] = value
 
         params = self.paramSolver(valueMap)
         fitList = []
