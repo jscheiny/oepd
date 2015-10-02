@@ -17,7 +17,10 @@ def kurtosis(k,theta):
 	return 6/k+3
 
 def pdf(k,theta,x):
-	1/(math.gamma(k)*theta**k)*x**(k-1)*math.exp(-x/theta)
+	if x<0:
+		return 0
+	else:
+		return 1/(math.gamma(k)*theta**k)*x**(k-1)*math.exp(-x/theta)
 
 
 def solver(mu,sig2):
@@ -28,12 +31,6 @@ def solver(mu,sig2):
 
 
 def goodness_of_fit(mu,sig2,skew=None,kurt=None):
-	#returns:
-	#-1 if no fit
-	#0  if trivial fit found (in this case if only mu and sig2 are given)
-	#1  if decent fit
-	#2  if good fit
-	#3  if ggggg-great fit
 	params = solver(mu,sig2)
 	fitlist=[]	
 	if skew!=None:

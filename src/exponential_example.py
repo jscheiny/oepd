@@ -17,7 +17,10 @@ def kurtosis(lamb):
 	return 3.0
 
 def pdf(lamb,x):
-	lamb*math.exp(lamb*x)
+	if x<0:
+		return 0:
+	else:
+		return lamb*math.exp(lamb*x)
 
 
 def solver(mu):
@@ -25,12 +28,6 @@ def solver(mu):
 	return [lamb]
 
 def goodness_of_fit(mu,sig2=None,skew=None,kurt=None):
-	#returns:
-	#-1 if no fit
-	#0  if trivial fit found (in this case if only mu and sig2 are given)
-	#1  if decent fit
-	#2  if good fit
-	#3  if ggggg-great fit
 	params = solver(mu)
 	fitlist=[]	
 	if sig2!=None:

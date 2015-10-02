@@ -27,9 +27,14 @@ def pdf(a,b,x):
 
 
 def solver(mu,sig2):
-	print "warning, uniform discrete example solver currently has a bug."
 	roots = utils.solve_quadratic_eqn(1,-2*mu-1,mu**2+mu-3*sig2)
-	return roots
+	if roots==None:
+		return None
+	else:
+		a = min(roots)
+		b = 2*mu-a
+		return [a, b]
+
 		
 
 
