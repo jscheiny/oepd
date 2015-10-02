@@ -1,4 +1,4 @@
-import enum
+import enum, asserts
 
 class Domain(enum.Enum):
     Continuous = 'Continuous'
@@ -26,13 +26,12 @@ class Distribution(object):
             name:
                 A string containing the name of the distribution (may be None).
         """
-        assert type(domain) == Domain
-        assert type(params) == tuple
-        for p in params:
-            assert type(p) == str
-        assert callable(cdf)
-        assert callable(solver)
-        assert name == None or type(name) == str
+        asserts.checkType(domain, Domain)
+        asserts.checkIterType(params, str)
+        asserts.checkCallable(cdf)
+        asserts.checkCallable(solver)
+        asserts.checkOptionalType(name, str)
+
         self.domain = domain
         self.params = params
         self.name = name
