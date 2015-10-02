@@ -1,47 +1,94 @@
-import enum, asserts
+import enum, asserts, utils, errors
 
 class Domain(enum.Enum):
     Continuous = 'Continuous'
     Discrete   = 'Discrete'
 
+class StatValue(object):
+    def __init__(self, stat, value):
+        asserts.checkType(stat, Stat)
+        self.stat = stat
+        self.value = value
+
+    def __repr__(self):
+        return self.stat.value + '=' + repr(self.value)
+
+class Stat(enum.Enum):
+    Mu = 'mu'
+    Sig2 = 'sig2'
+    Skew = 'skew'
+    Kurt = 'kurt'
+
+    def __call__(self, value):
+        return StatValue(self, value)
+
 class Distribution(object):
-    def __init__(self, domain, cdf, solver, params = (), name = None):
+    def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
         """
         Creates a reference representation of a probability distribution.
 
         Args:
+            name:
+                A string containing the name of the distribution
             domain:
                 One of the enumeration types drawn from the Domain type
-            cdf:
-                A cdf function which should take two arguments, an value and
-                a tuple of distribution parameters.
-            solver:
-                A function which takes a set of descriptive stats and returns a
-                tuple containing the values of the parameters for the distribution
-                based on those stats.
             params:
                 A tuple of strings containing the names of all of the parameters
                 of this distribution. The order of params here determines the
                 order in which they will be passed to all relevant functions.
-            name:
-                A string containing the name of the distribution (may be None).
-        """
-        asserts.checkType(domain, Domain)
-        asserts.checkIterType(params, str)
-        asserts.checkCallable(cdf)
-        asserts.checkCallable(solver)
-        asserts.checkOptionalType(name, str)
+            paramSolver:
+                A function which takes a map from descriptive stats to their values
+                and returns a tuple containing the values of the parameters for the
+                distribution based on those stats (should be returned in the same
+                order as given in the params argument).
+            cdf:
+                A cdf function which should take two arguments, an value and
+                a tuple of distribution parameters.
+            fittingFns:
+                A map from descriptive stats to functions that take a set of parameter
+                values, and return the value of that stat for the PD. These are
+                the functions used to determine if this PD is a good fit for the data.
 
+        """
+        asserts.checkType(name, str)
+        asserts.checkType(domain, Domain)
+        asserts.checkIterType(params, str, iterType = tuple)
+        asserts.checkCallable(paramSolver)
+        asserts.checkCallable(cdf)
+        # TODO: Check type of fittingFns
+
+        self.name = name
         self.domain = domain
         self.params = params
-        self.name = name
+        self.paramSolver = paramSolver
+        self.cdf = cdf
+        self.fittingFns = fittingFns
 
     def __repr__(self):
         r = self.domain.value + ' Probability Distribution'
-        if self.name != None and self.name != '':
-            r += ': ' + self.name
-        else:
-            r += ' '
+        r += ': ' + self.name
         if len(self.params) > 0:
             r += '(' + (', '.join(self.params)) + ')'
         return r
+
+    def goodnessOfFit(self, *values):
+        asserts.checkIterType(values, StatValue)
+        valueMap = {}
+        for sv in values:
+            valueMap[sv.stat] = sv.value
+
+        params = self.paramSolver(valueMap)
+        fitList = []
+        for stat, fitFn in self.fittingFns.iteritems():
+            if stat in valueMap:
+                fit = utils.approx_equal(valueMap[stat], fitFn(*params))
+                fitList.append(fit)
+        return utils.fits2score(fitList)
+
+def extractStats(statsMap, *stats):
+    extracted = []
+    for s in stats:
+        if s not in statsMap:
+            raise MissingStatError(s)
+        extracted.append(statsMap[s])
+    return tuple(extracted)

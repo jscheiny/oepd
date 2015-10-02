@@ -10,7 +10,9 @@ def checkDictType(param, keyType, valueType):
         assert type(key) == keyType
         assert type(value) == valueType
 
-def checkIterType(param, elemType):
+def checkIterType(param, elemType, iterType=None):
+    if iterType != None:
+        assert type(param) == iterType
     for elem in param:
         assert type(elem) == elemType
 
