@@ -1,4 +1,4 @@
-import enum, asserts, utils, errors
+import enum, asserts, errors, bisect
 
 class Domain(enum.Enum):
     Continuous = 'Continuous'
@@ -16,6 +16,42 @@ class Stat(enum.Enum):
             if e.value == value:
                 return e
         return None
+
+class Fit(enum.Enum):
+    Great = 3
+    Good = 2
+    Decent = 1
+    Trivial = 0
+    NoFit = -1
+    InsufficientData = -2
+
+def _scoreFits(fitList):
+    """
+    Given a set of fittings returned by _approxEqual, returns a fitting
+    rating, a value of the Fit enum.
+    """
+    if len(fitList) == 0:
+        return Fit.Trivial
+    if max(fitList) > 3:
+        return Fit.NoFit
+    if max(fitList) == 3:
+        return Fit.Decent
+    if max(fitList) == 2 and len(fitList) <= 2:
+        return Fit.Good
+    return Fit.Great
+
+
+def _approxEqual(a, b):
+    """
+    Returns a rating of how close a and b are to each other, 1 = great, 5 = bad.
+    """
+    if a < b:
+        a, b = b, a
+    if a < 1e-5:
+        err = 100 * (b - a)
+    else:
+        err = 1.0 * a / b - 1
+    return bisect.bisect_right([.01, .1, .5, 1], err) + 1
 
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
@@ -77,9 +113,9 @@ class Distribution(object):
         fitList = []
         for stat, fitFn in self.fittingFns.iteritems():
             if stat in valueMap:
-                fit = utils.approx_equal(valueMap[stat], fitFn(*params))
+                fit = _approxEqual(valueMap[stat], fitFn(*params))
                 fitList.append(fit)
-        return utils.fits2score(fitList)
+        return _scoreFits(fitList)
 
 def extractStats(statsMap, *stats):
     extracted = []
