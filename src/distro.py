@@ -4,23 +4,11 @@ class Domain(enum.Enum):
     Continuous = 'Continuous'
     Discrete   = 'Discrete'
 
-class StatValue(object):
-    def __init__(self, stat, value):
-        asserts.checkType(stat, Stat)
-        self.stat = stat
-        self.value = value
-
-    def __repr__(self):
-        return self.stat.value + '=' + repr(self.value)
-
 class Stat(enum.Enum):
     Mu = 'mu'
     Sig2 = 'sig2'
     Skew = 'skew'
     Kurt = 'kurt'
-
-    def __call__(self, value):
-        return StatValue(self, value)
 
     @staticmethod
     def lookup(value):
