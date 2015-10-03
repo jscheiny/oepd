@@ -1,7 +1,7 @@
 import distro, utils
 
 def _solver(stats):
-    (mu, sig2) = distro.extractStats(stats, distro.Stat.Mu, distro.Stat.Sig2)
+    (mu, sig2) = distro.extractStats(stats, [distro.Stat.Mu, distro.Stat.Sig2])
     roots = utils.solve_quadratic_eqn(1, -2 * mu - 1, mu ** 2 + mu - 3 * sig2)
     if roots == None:
         return None

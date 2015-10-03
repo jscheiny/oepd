@@ -1,7 +1,7 @@
 import distro
 
 def _solver(stats):
-    (mu,) = distro.extractStats(stats, distro.Stat.Mu)
+    (mu,) = distro.extractStats(stats, [distro.Stat.Mu])
     return (1.0 / mu,)
 
 exponential = distro.Distribution(

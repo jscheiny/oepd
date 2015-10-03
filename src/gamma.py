@@ -1,7 +1,7 @@
 import distro, math
 
 def _solver(stats):
-    (mu, sig2) = distro.extractStats(stats, distro.Stat.Mu, distro.Stat.Sig2)
+    (mu, sig2) = distro.extractStats(stats, [distro.Stat.Mu, distro.Stat.Sig2])
     theta = float(sig2) / mu
     k = float(mu) / theta
     return (k, theta)

@@ -23,12 +23,11 @@ class Fit(enum.Enum):
     Decent = 1
     Trivial = 0
     NoFit = -1
-    InsufficientData = -2
 
 def _scoreFits(fitList):
     """
-    Given a set of fittings returned by _approxEqual, returns a fitting
-    rating, a value of the Fit enum.
+    Given a set of fittings returned by _approxEqual, returns a fitting rating,
+    a value of the Fit enum.
     """
     if len(fitList) == 0:
         return Fit.Trivial
@@ -71,7 +70,9 @@ class Distribution(object):
                 A function which takes a map from descriptive stats to their values
                 and returns a tuple containing the values of the parameters for the
                 distribution based on those stats (should be returned in the same
-                order as given in the params argument).
+                order as given in the params argument). If it is unsolvable with
+                the given data, it should return either None or throw an
+                UnsolvableParamsError.
             cdf:
                 A cdf function which should take two arguments, an value and
                 a tuple of distribution parameters.
@@ -106,21 +107,35 @@ class Distribution(object):
         valueMap = {}
         for name, value in values.iteritems():
             stat = Stat.lookup(name)
-            if name != None:
+            if stat != None:
                 valueMap[stat] = value
+            else:
+                raise ValueError('Unknown statistic "%s"' % name)
 
-        params = self.paramSolver(valueMap)
+        params = None
+        try:
+            params = self.paramSolver(valueMap)
+        except errors.UnsolvableParamsError as e:
+            return Fit.NoFit
+        if params == None:
+            return Fit.NoFit
+        print params
         fitList = []
         for stat, fitFn in self.fittingFns.iteritems():
             if stat in valueMap:
+                print stat
                 fit = _approxEqual(valueMap[stat], fitFn(*params))
                 fitList.append(fit)
         return _scoreFits(fitList)
 
-def extractStats(statsMap, *stats):
+def extractStats(statsMap, stats, noneWhenMissing = False):
     extracted = []
-    for s in stats:
-        if s not in statsMap:
-            raise MissingStatError(s)
-        extracted.append(statsMap[s])
+    for stat in stats:
+        if stat not in statsMap:
+            if noneWhenMissing:
+                extracted.append(None)
+            else:
+                raise errors.UnsolvableParamsError.missingStat(stat)
+        else:
+            extracted.append(statsMap[stat])
     return tuple(extracted)

@@ -1,3 +1,7 @@
-class MissingStatError(Exception):
-    def __init__(self, stat, distro):
-        self.msg = 'Cannot solve for params without stat %s' % (distro, stat.value)
+class UnsolvableParamsError(Exception):
+    def __init__(self, reason):
+        self.msg = reason
+
+    @staticmethod
+    def missingStat(stat):
+        return UnsolvableParamsError('Missing statistic ' + stat.value)
