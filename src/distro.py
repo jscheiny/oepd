@@ -52,6 +52,8 @@ def _approxEqual(a, b):
         err = 1.0 * a / b - 1
     return bisect.bisect_right([.01, .1, .5, 1], err) + 1
 
+
+
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
         """
