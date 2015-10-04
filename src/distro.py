@@ -121,7 +121,7 @@ class Distribution(object):
             return Fit.NoFit
         if params == None:
             return Fit.NoFit
-        print params
+
         fitList = []
         for stat, fitFn in self.fittingFns.iteritems():
             if stat in valueMap:
