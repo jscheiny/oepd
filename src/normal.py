@@ -12,6 +12,6 @@ normal = distro.Distribution(
     cdf         = lambda x : 0, # unimplemented
     fittingFns  = {
         distro.Stat.Skew: lambda mu, sig : 0.0
-        distro.Stat.Kurt: lambda mu, sig : 0.0
+        distro.Stat.Kurt: lambda mu, sig : 3.0
     }
 )
