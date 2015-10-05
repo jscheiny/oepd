@@ -1,4 +1,4 @@
-import enum, asserts, errors, bisect, math
+import asserts, errors, bisect, math
 
 class Domain(object):
     Continuous = 'Continuous'
@@ -24,41 +24,43 @@ def _scoreFits(fitList):
     """
     if len(fitList) == 0:
         return Fit.Trivial
-    if max(fitList) > 3:
+    if min(fitList) == 1 or fitList.count(2)>1:
         return Fit.NoFit
-    if max(fitList) == 3:
+    if min(fitList)==2:
         return Fit.Decent
-    if max(fitList) == 2 and len(fitList) <= 2:
+    if min(fitList) == 3:
+        if fitList.count(3)==1 and len(fitList)>1:
+            return Fit.Good
+        else:
+            return Fit.Decent
+    if min(fitList) == 4 and len(fitList) <= 2:
         return Fit.Good
     return Fit.Great
 
 
-def _approxEqualOld(a, b):
-    """
-    Returns a rating of how close a and b are to each other, 1 = great, 5 = bad.
-    """
-    if a < b:
-        a, b = b, a
-    if a < 1e-5:
-        err = 100 * (b - a)
-    else:
-        err = 1.0 * a / b - 1
-    return bisect.bisect_right([.01, .1, .5, 1], err) + 1
 
 def _approxEqual(a,b):
+    """
+    Returns a rating of how close a and b are to each other, 5 = great, 1 = bad.
+    """
+    if a<0 and b<0:
+        a = -a
+        b = -b
     if b<a:
         a,b = b,a
-    if a==0 and b==0:
+    if a==b:
         return 5
-    if a*b==0:
-        s = round(-math.log(abs(a)+abs(b),10))
+    if a*b<=0:
+        s = round(-math.log(abs(a)+abs(b)))
     else:
-        s = round(-math.log( (b-a)/float(a),10 ) )
+        s = round(-math.log( abs(b-a)/float(a)) )
     if s<=0:
-        return 0
+        return 1
     if s>5:
         return 5
-    return s
+    return int(s)
+
+
 
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
