@@ -1,23 +1,16 @@
 import enum, asserts, errors, bisect
 
-class Domain(enum.Enum):
+class Domain(object):
     Continuous = 'Continuous'
     Discrete   = 'Discrete'
 
-class Stat(enum.Enum):
+class Stat(object):
     Mu = 'mu'
     Sig2 = 'sig2'
     Skew = 'skew'
     Kurt = 'kurt'
 
-    @staticmethod
-    def lookup(value):
-        for e in Stat:
-            if e.value == value:
-                return e
-        return None
-
-class Fit(enum.Enum):
+class Fit(object):
     Great = 3
     Good = 2
     Decent = 1
@@ -52,8 +45,6 @@ def _approxEqual(a, b):
         err = 1.0 * a / b - 1
     return bisect.bisect_right([.01, .1, .5, 1], err) + 1
 
-
-
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
         """
@@ -85,7 +76,6 @@ class Distribution(object):
 
         """
         asserts.checkType(name, str)
-        asserts.checkType(domain, Domain)
         asserts.checkIterType(params, str, iterType = tuple)
         asserts.checkCallable(paramSolver)
         asserts.checkCallable(cdf)
@@ -99,24 +89,16 @@ class Distribution(object):
         self.fittingFns = fittingFns
 
     def __repr__(self):
-        r = self.domain.value + ' Probability Distribution'
+        r = self.domain + ' Probability Distribution'
         r += ': ' + self.name
         if len(self.params) > 0:
             r += '(' + (', '.join(self.params)) + ')'
         return r
 
     def goodnessOfFit(self, **values):
-        valueMap = {}
-        for name, value in values.iteritems():
-            stat = Stat.lookup(name)
-            if stat != None:
-                valueMap[stat] = value
-            else:
-                raise ValueError('Unknown statistic "%s"' % name)
-
         params = None
         try:
-            params = self.paramSolver(valueMap)
+            params = self.paramSolver(values)
         except errors.UnsolvableParamsError as e:
             return Fit.NoFit
         if params == None:
@@ -124,9 +106,8 @@ class Distribution(object):
 
         fitList = []
         for stat, fitFn in self.fittingFns.iteritems():
-            if stat in valueMap:
-                print stat
-                fit = _approxEqual(valueMap[stat], fitFn(*params))
+            if stat in values:
+                fit = _approxEqual(values[stat], fitFn(*params))
                 fitList.append(fit)
         return _scoreFits(fitList)
 

@@ -4,4 +4,4 @@ class UnsolvableParamsError(Exception):
 
     @staticmethod
     def missingStat(stat):
-        return UnsolvableParamsError('Missing statistic ' + stat.value)
+        return UnsolvableParamsError('Missing statistic ' + stat)
