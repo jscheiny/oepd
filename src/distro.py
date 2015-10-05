@@ -1,4 +1,4 @@
-import enum, asserts, errors, bisect
+import enum, asserts, errors, bisect, math
 
 class Domain(object):
     Continuous = 'Continuous'
@@ -33,7 +33,7 @@ def _scoreFits(fitList):
     return Fit.Great
 
 
-def _approxEqual(a, b):
+def _approxEqualOld(a, b):
     """
     Returns a rating of how close a and b are to each other, 1 = great, 5 = bad.
     """
@@ -44,6 +44,21 @@ def _approxEqual(a, b):
     else:
         err = 1.0 * a / b - 1
     return bisect.bisect_right([.01, .1, .5, 1], err) + 1
+
+def _approxEqual(a,b):
+    if b<a:
+        a,b = b,a
+    if a==0 and b==0:
+        return 5
+    if a*b==0:
+        s = round(-math.log(abs(a)+abs(b),10))
+    else:
+        s = round(-math.log( (b-a)/float(a),10 ) )
+    if s<=0:
+        return 0
+    if s>5:
+        return 5
+    return s
 
 class Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
