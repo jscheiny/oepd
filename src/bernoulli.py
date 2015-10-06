@@ -10,7 +10,7 @@ distro.register(
     params      = ('p', ),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
-    sample      = lambda p: (1 if random.random()<p else 0), #not implemented
+    sample      = lambda p: (1 if random.random()<p else 0),
     fittingFns  = {
         distro.Stat.Sig2: lambda p : p*(1-p),
         distro.Stat.Skew: lambda p : (1-2*p)/math.sqrt(p*(1-p)),

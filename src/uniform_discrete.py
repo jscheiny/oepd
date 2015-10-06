@@ -20,7 +20,7 @@ distro.register(
     params      = ('a', 'b'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
-    sample      = lambda a, b : random.randint(a,b), # unimplemented
+    sample      = lambda a, b : random.randint(a,b),
     fittingFns  = {
         distro.Stat.Skew: lambda a, b : 0,
         distro.Stat.Kurt: _kurtosis

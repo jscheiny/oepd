@@ -19,7 +19,7 @@ distro.register(
     params      = ('p',),
     paramSolver = _solver,
     cdf         = lambda k : 1 - (1.0 - p)**k,
-    sample      = lambda p : numpy.random.geometric(p), # unimplemented
+    sample      = lambda p : numpy.random.geometric(p),
     fittingFns  = {
         distro.Stat.Sig2: _variance,
         distro.Stat.Skew: _skewness,

@@ -12,7 +12,7 @@ distro.register(
     params      = ('n','p'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
-    sample      = lambda n, p : numpy.random.binomial(n,p), # unimplemented
+    sample      = lambda n, p : numpy.random.binomial(n,p),
     fittingFns  = {
         distro.Stat.Skew: lambda n, p : (1-2*p)/math.sqrt(n*p*(1-p)),
         distro.Stat.Kurt: lambda n, p : (1-6*p*(1-p))/math.sqrt(n*p*(1-p))+3

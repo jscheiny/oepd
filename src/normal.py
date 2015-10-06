@@ -10,7 +10,7 @@ distro.register(
     params      = ('mu', 'sigma'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
-    sample      = lambda mu, sigma: numpy.random.normal(mu,sigma), # unimplemented
+    sample      = lambda mu, sigma: numpy.random.normal(mu,sigma),
     fittingFns  = {
         distro.Stat.Skew: lambda mu, sig : 0.0,
         distro.Stat.Kurt: lambda mu, sig : 3.0

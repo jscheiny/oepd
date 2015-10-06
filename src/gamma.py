@@ -12,7 +12,7 @@ distro.register(
     params      = ('k', 'theta'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
-    sample      = lambda k, theta: numpy.random.gamma(k,theta), # unimplemented
+    sample      = lambda k, theta: numpy.random.gamma(k,theta), 
     fittingFns  = {
         distro.Stat.Skew: lambda k, theta : 2 / math.sqrt(k),
         distro.Stat.Kurt: lambda k, theta : 6 / k + 3
