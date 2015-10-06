@@ -59,7 +59,7 @@ def _approxEqual(a,b):
     return int(s)
 
 class _Distribution(object):
-    def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
+    def __init__(self, name, domain, params, paramSolver, cdf, sample, fittingFns):
         """
         Creates a reference representation of a probability distribution.
 
@@ -82,6 +82,9 @@ class _Distribution(object):
             cdf:
                 A cdf function which should take two arguments, an value and
                 a tuple of distribution parameters.
+            sample:
+                A real-valued function which takes len(params) arguments and returns a random
+                instance of this random variable
             fittingFns:
                 A map from descriptive stats to functions that take a set of parameter
                 values, and return the value of that stat for the PD. These are
@@ -92,6 +95,7 @@ class _Distribution(object):
         asserts.checkIterType(params, str, iterType = tuple)
         asserts.checkCallable(paramSolver)
         asserts.checkCallable(cdf)
+        asserts.checkCallable(sample)
         # TODO: Check type of fittingFns
 
         self.name = name
@@ -99,6 +103,7 @@ class _Distribution(object):
         self.params = params
         self.paramSolver = paramSolver
         self.cdf = cdf
+        self.sample = sample
         self.fittingFns = fittingFns
 
     def __repr__(self):

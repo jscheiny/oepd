@@ -1,4 +1,4 @@
-import distro, math
+import distro, math, numpy
 
 def _solver(stats):
     (mu, sig2) = distro.extractStats(stats, [distro.Stat.Mu, distro.Stat.Sig2])
@@ -10,6 +10,7 @@ distro.register(
     params      = ('mu', 'sigma'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
+    sample      = lambda mu, sigma: numpy.random.normal(mu,sigma), # unimplemented
     fittingFns  = {
         distro.Stat.Skew: lambda mu, sig : 0.0,
         distro.Stat.Kurt: lambda mu, sig : 3.0

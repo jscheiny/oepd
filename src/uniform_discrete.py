@@ -1,4 +1,4 @@
-import distro, utils
+import distro, utils, random
 
 def _solver(stats):
     (mu, sig2) = distro.extractStats(stats, [distro.Stat.Mu, distro.Stat.Sig2])
@@ -20,6 +20,7 @@ distro.register(
     params      = ('a', 'b'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
+    sample      = lambda a, b : random.randint(a,b), # unimplemented
     fittingFns  = {
         distro.Stat.Skew: lambda a, b : 0,
         distro.Stat.Kurt: _kurtosis

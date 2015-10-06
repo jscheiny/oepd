@@ -1,4 +1,4 @@
-import distro, utils
+import distro, utils, numpy
 
 def _solver(stats):
     (mu,) = distro.extractStats(stats, [distro.Stat.Mu])
@@ -19,6 +19,7 @@ distro.register(
     params      = ('p',),
     paramSolver = _solver,
     cdf         = lambda k : 1 - (1.0 - p)**k,
+    sample      = lambda p : numpy.random.geometric(p), # unimplemented
     fittingFns  = {
         distro.Stat.Sig2: _variance,
         distro.Stat.Skew: _skewness,
