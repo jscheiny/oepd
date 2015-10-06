@@ -4,7 +4,7 @@ def _solver(stats):
     (mu,) = distro.extractStats(stats, [distro.Stat.Mu])
     return (1.0 / mu,)
 
-exponential = distro.Distribution(
+distro.register(
     name        = 'Exponential',
     domain      = distro.Domain.Continuous,
     params      = ('lambda', ),

@@ -1,10 +1,10 @@
-import distro
+import distro, math
 
 def _solver(stats):
     (mu,) = distro.extractStats(stats, [distro.Stat.Mu])
     return (mu,)
 
-bernoulli = distro.Distribution(
+distro.register(
     name        = 'Bernoulli',
     domain      = distro.Domain.Discrete,
     params      = ('p', ),

@@ -6,7 +6,7 @@ def _solver(stats):
     n = mu/p
     return (n,p)
 
-binomial = distro.Distribution(
+distro.register(
     name        = 'Binomial',
     domain      = distro.Domain.Discrete,
     params      = ('n','p'),

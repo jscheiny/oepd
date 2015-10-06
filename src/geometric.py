@@ -13,7 +13,7 @@ def _skewness(p):
 def _kurtosis(a, b):
     return 6 + p**2/(1.0 - p) + 3
 
-geometric = distro.Distribution(
+distro.register(
     name        = 'Geometric',
     domain      = distro.Domain.Discrete,
     params      = ('p',),

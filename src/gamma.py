@@ -6,7 +6,7 @@ def _solver(stats):
     k = float(mu) / theta
     return (k, theta)
 
-gamma = distro.Distribution(
+distro.register(
     name        = 'Gamma',
     domain      = distro.Domain.Continuous,
     params      = ('k', 'theta'),

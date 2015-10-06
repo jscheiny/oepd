@@ -37,8 +37,6 @@ def _scoreFits(fitList):
         return Fit.Good
     return Fit.Great
 
-
-
 def _approxEqual(a,b):
     """
     Returns a rating of how close a and b are to each other, 5 = great, 1 = bad.
@@ -60,9 +58,7 @@ def _approxEqual(a,b):
         return 5
     return int(s)
 
-
-
-class Distribution(object):
+class _Distribution(object):
     def __init__(self, name, domain, params, paramSolver, cdf, fittingFns):
         """
         Creates a reference representation of a probability distribution.
@@ -126,7 +122,7 @@ class Distribution(object):
             if stat in values:
                 fit = _approxEqual(values[stat], fitFn(*params))
                 fitList.append(fit)
-        return _scoreFits(fitList)
+        return _scoreFits(fitList), dict(zip(self.params, params))
 
 def extractStats(statsMap, stats, noneWhenMissing = False):
     extracted = []
@@ -139,3 +135,28 @@ def extractStats(statsMap, stats, noneWhenMissing = False):
         else:
             extracted.append(statsMap[stat])
     return tuple(extracted)
+
+_distros = {}
+
+def register(**args):
+    distro = _Distribution(**args)
+    name = args['name']
+    _distros[name] = distro
+    return distro
+
+def find(name):
+    if name in _distros:
+        return _distros[name]
+    return None
+
+def matches(domain, **statValues):
+    results = []
+    for name, d in _distros.iteritems():
+        if d.domain == domain:
+            try:
+                (fit, params) = d.goodnessOfFit(**statValues)
+                if fit != Fit.NoFit:
+                    results.append((fit, d, params))
+            except:
+                pass
+    return results

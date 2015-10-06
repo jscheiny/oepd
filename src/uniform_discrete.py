@@ -14,7 +14,7 @@ def _kurtosis(a, b):
     n = b - a + 1.0 
     return -6 * (n ** 2 + 1) / 5. / (n ** 2 - 1)
 
-uniformDiscrete = distro.Distribution(
+distro.register(
     name        = 'Uniform Discrete',
     domain      = distro.Domain.Discrete,
     params      = ('a', 'b'),
