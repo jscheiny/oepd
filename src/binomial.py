@@ -6,14 +6,14 @@ def _solver(stats):
     n = mu/p
     return (n,p)
 
-exponential = distro.Distribution(
+binomial = distro.Distribution(
     name        = 'Binomial',
     domain      = distro.Domain.Discrete,
     params      = ('n','p'),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
     fittingFns  = {
-        distro.Stat.Skew: lambda lamb : (1-2*p)/math.sqrt(n*p*(1-p)),
-        distro.Stat.Kurt: lambda lamb : (1-6*p*(1-p))/math.sqrt(n*p*(1-p))+3
+        distro.Stat.Skew: lambda n, p : (1-2*p)/math.sqrt(n*p*(1-p)),
+        distro.Stat.Kurt: lambda n, p : (1-6*p*(1-p))/math.sqrt(n*p*(1-p))+3
     }
 )
