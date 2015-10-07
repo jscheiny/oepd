@@ -9,6 +9,7 @@ class Stat(object):
     Sig2 = 'sig2'
     Skew = 'skew'
     Kurt = 'kurt'
+    Med = 'med'
 
 class Fit(object):
     Great = 3

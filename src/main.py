@@ -1,5 +1,5 @@
 import distro, numpy, utils
-import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete
+import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous
 
 
 def print_match_info(matches):
@@ -26,14 +26,17 @@ def main():
     matches = distro.matches(domain = distro.Domain.Continuous, mu=6.0, sig2=4.0) #should give several trivial fits
     print_match_info(matches)
 
+
     gamma = distro.find('Gamma')
-    data = [gamma.sample(3,5) for i in range(10**5)]
+    npts = 10**4
+    data = [gamma.sample(3,5) for i in range(npts)]
     sample_mean = numpy.mean(data)
     sample_variance = utils.sampleVariance(data)
     sample_skewness = utils.sampleSkewness(data)
     sample_kurtosis = utils.sampleKurtosis(data)
     matches = distro.matches(domain = distro.Domain.Continuous, mu=sample_mean, sig2=sample_variance,skew=sample_skewness,kurt=sample_kurtosis)
-    print_match_info(matches)
+    print_match_info(matches)  #should give decent or good fit for gamma(3,5)
+
 
 if __name__ == '__main__':
     main()
