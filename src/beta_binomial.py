@@ -9,7 +9,7 @@ def _solver(stats):
     return (round(n),a,b)
 
 distro.register(
-    name        = 'beta_binomial',
+    name        = 'Beta_Binomial',
     domain      = distro.Domain.Discrete,
     params      = ('n','a','b'),
     paramSolver = _solver,
