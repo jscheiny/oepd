@@ -16,3 +16,26 @@ def solve_quadratic_eqn(a,b,c):
         return None
     else:
         return (-b-math.sqrt(disc))/(2*a), (-b+math.sqrt(disc))/(2*a)
+
+
+def sampleVariance(L):
+    n = float(len(L))
+    return numpy.var(L)*n/(n-1)
+
+def sampleSkewness(L):
+    mu = numpy.mean(L)
+    sig = numpy.std(L)
+    n = float(len(L))
+    m3 = 1.0/n * sum([(x-mu)**3 for x in L])
+    s3 = sampleVariance(L)**(1.5)
+    return m3/s3
+
+def sampleKurtosis(L):
+    mu = numpy.mean(L)
+    sig = numpy.std(L)
+    n = float(len(L))
+    m4 = 1.0/n * sum([(x-mu)**4 for x in L])
+    m22 = sampleVariance(L)
+    return m4/m22**2
+    
+
