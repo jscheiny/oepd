@@ -1,5 +1,5 @@
 import distro, numpy, utils
-import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang
+import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson
 
 
 def print_match_info(matches):
