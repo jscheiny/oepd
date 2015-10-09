@@ -1,4 +1,4 @@
-import math, numpy
+import math, numpy, random
 
 def nintegral(f,a,b,delta):
     xvals = numpy.arange(a,b,delta)
@@ -38,4 +38,14 @@ def sampleKurtosis(L):
     m22 = sampleVariance(L)
     return m4/m22**2
     
+
+def sample_naturals_from_pmf(pmffun):
+    s=0
+    r=random.random()
+    i=-1
+    while s<r:
+        i+=1
+        s+=pmffun(i)
+    return i
+
 
