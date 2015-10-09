@@ -7,7 +7,7 @@ def _solver(stats):
 distro.register(
     name        = 'Poisson',
     domain      = distro.Domain.Discrete,
-    params      = ('lambda'),
+    params      = ('lambda',),
     paramSolver = _solver,
     cdf         = lambda x : 0, # unimplemented
     sample      = lambda lamb : numpy.random.poisson(lamb),

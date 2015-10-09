@@ -1,5 +1,5 @@
 import distro, numpy, utils
-import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson
+import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel
 
 
 def print_match_info(matches):
@@ -8,7 +8,6 @@ def print_match_info(matches):
         paramStr = ', '.join('%s=%g' % (k, v) for k, v in params.iteritems())
         print 'Fit=%d: %s where %s' % (fit, d.name, paramStr)
     print "********************"
-
 
 
 def main():
@@ -36,6 +35,9 @@ def main():
     sample_kurtosis = utils.sampleKurtosis(data)
     matches = distro.matches(domain = distro.Domain.Continuous, mu=sample_mean, sig2=sample_variance,skew=sample_skewness,kurt=sample_kurtosis)
     print_match_info(matches)  #should give decent or good fit for gamma(3,5)
+
+
+
 
 
 if __name__ == '__main__':
