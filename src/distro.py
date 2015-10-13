@@ -10,6 +10,7 @@ class Stat(object):
     Skew = 'skew'
     Kurt = 'kurt'
     Med = 'med'
+    Max = 'maximum'
 
 class Fit(object):
     Great = 3

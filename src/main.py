@@ -1,6 +1,6 @@
 import distro, numpy, utils
 import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel, negative_binomial, half_normal, chi_squared, noncentral_chi_squared
-import beta_binomial, hypergeometric, beta  #use scipy
+import beta_binomial, hypergeometric, beta, yule_simon, zipf, arcsine  #use scipy
 
 
 def print_match_info(matches):

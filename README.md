@@ -6,4 +6,5 @@ Install with `pip install <package>`
 
 ```
 numpy
+scipy
 ```
