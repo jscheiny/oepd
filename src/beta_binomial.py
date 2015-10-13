@@ -17,4 +17,5 @@ distro.register(
     sample      = lambda n, a, b : numpy.random.binomial(n,numpy.random.beta(a,b)),
     fittingFns  = {
         distro.Stat.Kurt: lambda n, a, b : (a+b)**2*(1+a+b)/( n*a*b*(a+b+2)*(a+b+3)*(a+b+n) ) * ( (a+b)*(a+b-1+6*n)+3*a*b*(n-2)+6*n**2-3*a*b*n*(6-n)/(a+b)-18*a*b*n**2/(a+b)**2 )
+    }
 )

@@ -37,4 +37,5 @@ distro.register(
     sample      = lambda N, K, n : numpy.random.hypergeometric(K,N-K,n),
     fittingFns  = {
         distro.Stat.Kurt: lambda N, K, n : 1/(n*K*(N-K)*(N-n)*(N-2)*(N-3)) * ( (N-1)*N**2*(N*(N+1)-6*K*(N-K)-6*n*(N-n))+6*n*K*(N-K)*(N-n)*(5*N-6))+3 #did one test to confirm this :)
+	}
 )

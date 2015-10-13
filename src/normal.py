@@ -9,7 +9,7 @@ distro.register(
     domain      = distro.Domain.Continuous,
     params      = ('mu', 'sigma'),
     paramSolver = _solver,
-    cdf         = lambda x, mu, sigma : 0.5*(1+math.erf((x-mu)/(sigma*math.sqrt(2)))), # unimplemented
+    cdf         = lambda x, mu, sigma : 0.5*(1+math.erf((x-mu)/(sigma*math.sqrt(2)))),
     sample      = lambda mu, sigma: numpy.random.normal(mu,sigma),
     fittingFns  = {
         distro.Stat.Skew: lambda mu, sig : 0.0,

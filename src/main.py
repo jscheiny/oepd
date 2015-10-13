@@ -1,5 +1,6 @@
 import distro, numpy, utils
-import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel
+import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel, negative_binomial, half_normal, chi_squared, noncentral_chi_squared
+import beta_binomial, hypergeometric, beta  #use scipy
 
 
 def print_match_info(matches):
@@ -36,7 +37,15 @@ def main():
     matches = distro.matches(domain = distro.Domain.Continuous, mu=sample_mean, sig2=sample_variance,skew=sample_skewness,kurt=sample_kurtosis)
     print_match_info(matches)  #should give decent or good fit for gamma(3,5)
 
-
+    betabinomial=distro.find('Beta_Binomial')
+    npts = 10**4
+    data = [betabinomial.sample(50,1,2) for i in range(npts)]
+    sample_mean = numpy.mean(data)
+    sample_variance = utils.sampleVariance(data)
+    sample_skewness = utils.sampleSkewness(data)
+    sample_kurtosis = utils.sampleKurtosis(data)
+    matches = distro.matches(domain = distro.Domain.Discrete, mu=sample_mean, sig2=sample_variance,skew=sample_skewness,kurt=sample_kurtosis)
+    print_match_info(matches)  #should give decent or good fit for beta_binomial(50,1,2)
 
 
 
