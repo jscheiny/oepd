@@ -1,5 +1,5 @@
 import distro, numpy, utils
-import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel, negative_binomial, half_normal, chi_squared, noncentral_chi_squared
+import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel, negative_binomial, half_normal, chi_squared, noncentral_chi_squared, fisher_snedeco, logistic, laplace, inverse_gaussian
 import beta_binomial, hypergeometric, beta, yule_simon, zipf, arcsine, zero_truncated_poisson  #use scipy
 
 
