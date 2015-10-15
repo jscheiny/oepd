@@ -11,6 +11,7 @@ class Stat(object):
     Kurt = 'kurt'
     Med = 'med'
     Max = 'maximum'
+    Min = 'minimum'
 
 class Fit(object):
     Great = 3
