@@ -14,7 +14,7 @@ distro.register(
     paramSolver = _solver,
     cdf         = lambda x, m, b : (0.5*math.exp((x-m)/b) if x<m else 1-0.5*math.exp(-(x-m)/b)),
     sample      = lambda m, b: numpy.random.laplace(m, b),
-    fittingFns  = {,
+    fittingFns  = {
         distro.Stat.Skew: lambda m,s : 0,
         distro.Stat.Kurt: lambda m,s : 3+3,
         distro.Stat.Med:  lambda m,s : m

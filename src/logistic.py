@@ -14,7 +14,7 @@ distro.register(
     paramSolver = _solver,
     cdf         = lambda x, m, s : 1/(1+math.exp(-(x-m)/s)),
     sample      = lambda m, s: numpy.random.logistic(m,s),
-    fittingFns  = {,
+    fittingFns  = {
         distro.Stat.Skew: lambda m,s : 0,
         distro.Stat.Kurt: lambda m,s : 1.2+3,
         distro.Stat.Med:  lambda m,s : m

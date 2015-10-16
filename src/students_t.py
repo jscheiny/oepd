@@ -9,12 +9,12 @@ def _solver(stats):
 distro.register(
     name        = 'Students_t',
     domain      = distro.Domain.Continuous,
-    params      = ('nu'),
+    params      = ('nu',),
     paramSolver = _solver,
     cdf         = lambda x, nu : 0, #unimplemented
     sample      = lambda nu : numpy.random.standard_t(nu),
     fittingFns  = {
-        distro.Stat.Mean: lambda nu : 0,
+        distro.Stat.Mu: lambda nu : 0,
         distro.Stat.Skew: lambda nu : 0,
         distro.Stat.Kurt:  lambda nu: 6/(nu-4.)+3,
         distro.Stat.Med: lambda nu : 0
