@@ -10,7 +10,7 @@ def H(n,m):
 def _solver(stats): 
     (mu, maximum) = distro.extractStats(stats, [distro.Stat.Mu, distro.Stat.Max])
     equation = lambda s: H(maximum,s-1)/H(maximum,s)-mu
-    s = fsolve(equation,2.0)[0]
+    s = float(fsolve(equation,2.0))
     return (s,)
 
 
@@ -18,11 +18,12 @@ def _solver(stats):
 distro.register(
     name        = 'Zipf',
     domain      = distro.Domain.Discrete,
-    params      = ('s',),
+    params      = ('s', ),
     paramSolver = _solver,
     cdf         = lambda s,k = 0, # unimplemented
     sample      = lambda s : 0, # unimplemented
     fittingFns  = {
-        distro.Stat.Sig2: lambda s: 0, #unimplemented
-	}
+        distro.Stat.Sig2: lambda s : 0, #unimplemented
+        distro.Stat.Skew: lambda s : 0
+    }
 )

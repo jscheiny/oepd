@@ -15,7 +15,7 @@ distro.register(
     domain      = distro.Domain.Discrete,
     params      = ('rho', ),
     paramSolver = _solver,
-    cdf         = lambda rho, k : 1-k*scipy.special.beta(k,rho+1), # unimplemented
+    cdf         = lambda rho, k : 1-k*scipy.special.beta(k,rho+1),
     sample      = lambda rho: utils.sample_naturals_from_pmf(lambda k: _pmf(rho,k)),
     fittingFns  = {
         distro.Stat.Sig2: lambda rho : rho**2/( (rho-1)**2 * (rho-2) ) ,

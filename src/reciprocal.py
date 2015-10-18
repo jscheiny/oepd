@@ -15,8 +15,8 @@ distro.register(
     domain      = distro.Domain.Continuous,
     params      = ('a','b'),
     paramSolver = _solver,
-    cdf         = lambda x, m, s : 0.5*(1+(x-m)/s+1/math.pi*math.sin((x-m)/s*math.pi),
-    sample      = lambda m, s = 0 : reciprocal.rvs(a,b)
+    cdf         = lambda x, m, s : 0.5*(1+(x-m)/s+1/math.pi*math.sin((x-m)/s*math.pi)),
+    sample      = lambda m, s = 0 : reciprocal.rvs(a,b),
     fittingFns  = {
         distro.Stat.Skew: lambda a, b : float(reciprocal.stats(a,b,moments='s')),
         distro.Stat.Kurt: lambda a, b : float(reciprocal.stats(a,b,moments='k'))+3
