@@ -49,6 +49,22 @@ def sample_naturals_from_pmf(pmffun):
     return i
 
 
+def solve_monotonic_increasing(f,val,a=-1.,b=1., tol=1e-4):
+    if f(a)>val:
+        a = -1.
+        while f(a)>val:
+            a*=2
+    if f(b)<val:
+        b = 1.
+        while f(b)<val:
+            b*=2
+    while b-a>tol:
+        c = (a+b)/2
+        if f(c)<val:
+            a = c
+        else:
+            b = c
+    return (a+b)/2
 
     
 
