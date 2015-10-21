@@ -18,7 +18,7 @@ distro.register(
     paramSolver = _solver,
     cdf         = lambda x, m, s, xi : 1-(1+xi*(x-m)/s)**(-1/xi),
     sample      = lambda alpha, s : genpareto.rvs(xi,loc=m,scale=s),
-    fittingFns  = { #skewness is crap
+    fittingFns  = { #skewness is crap, fuck this distro
     }
 )
 

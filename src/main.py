@@ -1,6 +1,6 @@
 import distro, numpy, utils
 import bernoulli, binomial, exponential, gamma, geometric, normal, uniform_discrete, uniform_continuous, erlang, poisson, borel, negative_binomial, half_normal, chi_squared, noncentral_chi_squared, fisher_snedecor, logistic, laplace, inverse_gaussian, bates, wigner_semicircle, raised_cosine, students_t, arcsine, u_quadratic, rayleigh
-import beta_binomial, hypergeometric, beta, yule_simon, zero_truncated_poisson, weibull, inverse_weibull, maxwell_boltzmann, reciprocal, left_right_triangular, right_right_triangular, isosceles_triangular, beta_prime, birnbaum_saunders #use scipy
+import beta_binomial, hypergeometric, beta, yule_simon, zero_truncated_poisson, weibull, inverse_weibull, maxwell_boltzmann, reciprocal, left_right_triangular, right_right_triangular, isosceles_triangular, beta_prime, birnbaum_saunders, gompertz, nakagami, pareto #use scipy
 #import zipf
 
 def print_match_info(matches):
