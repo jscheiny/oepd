@@ -49,6 +49,34 @@ def sample_naturals_from_pmf(pmffun):
     return i
 
 
+def ptile(L,p): #similar to numpy.percentile, but that wasn't working for some reason
+    if p>1:
+        p = p/100.
+    LL = L[::]
+    LL.sort()
+    n = len(LL)
+    k = int((n-1)*p+.5)
+    return LL[k]
+    
+
+def printStatsInfo(L):
+    lo = min(L)
+    hi = max(L)
+    med = numpy.median(L)
+    mu = numpy.mean(L)
+    sig2 = numpy.var(L)
+    skew = sampleSkewness(L)
+    kurt = sampleKurtosis(L)
+    print "min  = ", lo
+    print "max  = ", hi
+    print "medi = ", med
+    print "mean = ", mu
+    print "sig2 = ", sig2
+    print "skew = ", skew
+    print "kurt = ", kurt
+
+
+
 def solve_monotonic_increasing(f,val,a=-1.,b=1., tol=1e-4):
     if f(a)>val:
         a = -1.

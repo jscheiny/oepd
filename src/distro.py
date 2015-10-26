@@ -12,6 +12,8 @@ class Stat(object):
     Med = 'med'
     Max = 'maximum'
     Min = 'minimum'
+    Q1  = 'firstquartile'
+    Q3 = 'thirdquartile'
 
 class Fit(object):
     Great = 3
